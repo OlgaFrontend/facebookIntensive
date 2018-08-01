@@ -1,8 +1,23 @@
 .statusBar{
     display: flex;
+    justify-content: center;
+    align-items:center;
     height: 42px;
     width: 100%;
     border-bottom: #29487d;
     background-color: #4267b2;
     margin-bottom: 20px;
+    & button{
+        display:flex;
+        justify-content: center;
+        align-items:center;
+        height: 40px;
+        background: transparent;
+        color:white;
+        border: none;
+    }
+    & img {
+        height: 30px;
+        background: transparent
+    }
 }
