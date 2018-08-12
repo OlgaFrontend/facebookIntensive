@@ -10,13 +10,13 @@ const portal = document.getElementById('spinner');
 
 export default class Spinner extends Component {
     static propTypes = {
-        isSpinning: PropTypes.bool.isRequired,
+        isPostsFetching: PropTypes.bool.isRequired,
     };
     render () {
-        const { isSpinning } = this.props;
+        const { isPostsFetching } = this.props;
 
         return createPortal(
-            isSpinning ? <div className = { Styles.spinner } /> : null,
+            isPostsFetching ? <div className = { Styles.spinner } /> : null,
             portal
         );
     }
