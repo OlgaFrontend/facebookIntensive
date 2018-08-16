@@ -57,7 +57,6 @@ export default class Like extends Component {
 
         return cx(Styles.icon, {
             [Styles.liked]: likedByMe,
-
         });
     }
 

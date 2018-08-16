@@ -9,14 +9,6 @@ import { withProfile } from '../../components/HOC/withProfile';
 import Styles from './styles.m.css';
 
 class Composer extends Component {
-    // constructor () {
-    //     super();
-    //     this._updateComment = this._updateComment.bind(this);
-    //     this._submitComment = this._submitComment.bind(this);
-    //     this._handleFormSubmit = this._handleFormSubmit.bind(this);
-    //     this._submitOnEnter = this._submitOnEnter.bind(this);
-
-    // }
     static propTypes = {
         _createPost: PropTypes.func.isRequired,
     };
@@ -26,8 +18,10 @@ class Composer extends Component {
     };
 
     _updateComment =(event) => {
+        const value = event.target.value;
+
         this.setState({
-            comment: event.target.value,
+            comment: value,
         });
     }
 
