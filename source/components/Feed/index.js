@@ -1,5 +1,7 @@
 //Core
 import React, { Component } from 'react';
+import { Transition } from 'react-transition-group';
+import { fromTo } from 'gsap';
 // Components
 import Composer from '../Composer';
 import Post from '../Post';
@@ -10,6 +12,7 @@ import StatusBar from '../StatusBar';
 import Styles from './styles.m.css';
 import Catcher from '../../components/Catcher';
 import Spinner from '../Spinner';
+import Postman from 'components/Postman';
 import { api, TOKEN, GROUP_ID } from '../../config/api';
 import { socket } from '../socket/init';
 
@@ -37,6 +40,7 @@ export default class Feed extends Component {
                 }));
             }
         });
+
         socket.on('remove', (postJSON) => {
             const { data: removedPost, meta } = JSON.parse(postJSON);
 
@@ -46,6 +50,7 @@ export default class Feed extends Component {
                 }));
             }
         });
+
         socket.on('like', (postJSON) => {
             const { data: likedPost, meta } = JSON.parse(postJSON);
 
@@ -145,6 +150,27 @@ export default class Feed extends Component {
            });
        }
 
+       _animateComposerEnter = (composer) => {
+           fromTo(composer,
+               1,
+               { opacity: 0, rotationX: 50 },
+               { opacity: 1, rotationX: 0 });
+       }
+       _animatePostmanEnter = (postman) => {
+           fromTo(postman,
+               1,
+               { opacity: 0, x: -50 },
+               { opacity:    1,
+                   x:          0,
+                   onComplete: () => {
+                       fromTo(postman,
+                           1,
+                           { opacity: 1 },
+                           { opacity: 0 });
+                   },
+               });
+       }
+
        render () {
            const { avatar, currentUserFirstName, currentUserLastName } = this.props;
            const { posts } = this.state;
@@ -165,11 +191,22 @@ export default class Feed extends Component {
                <section className = { Styles.feed }>
                    <Spinner isPostsFetching = { isPostsFetching } />
                    <StatusBar { ...this.props } />
-                   <Composer
-                       _createPost = { this._createPost }
-                       avatar = { avatar }
-                       currentUserFirstName = { currentUserFirstName }
-                   />
+                   <Transition
+                       appear
+                       in
+                       timeout = { 1000 }
+                       onEnter = { this._animateComposerEnter }>
+                       <Composer
+                           _createPost = { this._createPost }
+                       />
+                   </Transition>
+                   <Transition
+                       appear
+                       in
+                       timeout = { 1000 }
+                       onEnter = { this._animatePostmanEnter }>
+                       <Postman />
+                   </Transition>
                    {postsJSX}
                </section>
            );

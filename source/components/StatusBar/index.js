@@ -1,6 +1,8 @@
 //Core
 import React, { Component } from 'react';
 import cx from 'classnames';
+import { Transition } from 'react-transition-group';
+import { fromTo } from 'gsap';
 
 // Components
 import { Consumer } from '../../components/HOC/withProfile';
@@ -32,6 +34,10 @@ export default class StatusBar extends Component {
         socket.removeListener('connect');
         socket.removeListener('disconnect');
     }
+
+    _animateStatusBarEnter = (statusbar) => {
+        fromTo(statusbar, 1, { opacity: 0 }, { opacity: 1 });
+    }
     render () {
         const { avatar,
             currentUserFirstName,
@@ -45,11 +51,13 @@ export default class StatusBar extends Component {
 
         const statusMessage = online ? 'Online' : 'Offline';
 
-        console.log("online", online);
-
         return (
 
-            (
+            <Transition
+                appear
+                in
+                timeout = { 1000 }
+                onEnter = { this._animateStatusBarEnter }>
                 <section className = { Styles.statusBar }>
                     <div className = { statusStyle } >
                         <div>{statusMessage}</div>
@@ -62,7 +70,8 @@ export default class StatusBar extends Component {
                         <span>{currentUserLastName}</span>
                     </button>
                 </section>
-            )
+            </Transition>
+
         );
     }
 }

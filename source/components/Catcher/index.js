@@ -15,15 +15,12 @@ export default class Catcher extends Component {
     };
 
     componentDidCatch (error, stack) {
-        console.log("ERROR ->", error);
-        console.log("StackTrace->", stack.componentStack);
 
         this.setState({
             error: true,
         });
     }
     render () {
-        console.log('-> catcher');
 
         if (this.state.error) {
             return (
