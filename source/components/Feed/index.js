@@ -22,6 +22,7 @@ export default class Feed extends Component {
     state = {
         posts:           [],
         isPostsFetching: false,
+        isPostmanIn:     true,
     };
 
     componentDidMount () {
@@ -156,24 +157,38 @@ export default class Feed extends Component {
                { opacity: 0, rotationX: 50 },
                { opacity: 1, rotationX: 0 });
        }
-       _animatePostmanEntering = (postman) => {
-           fromTo(postman,
-               1,
-               { opacity: 0, x: -50 },
-               { opacity: 1,
-                   x:       0,
-               });
+
+       _animatePostmanEnter = (postman) => {
+           fromTo(postman, 1,
+               {
+                   opacity: 0,
+                   x:       50,
+               },
+               {
+                   opacity:    1,
+                   x:          0,
+                   onComplete: () => {
+                       setTimeout(() => {
+                           this.setState(() => ({
+                               isPostmanIn: false,
+                           }));
+                       }, 5000);
+                   },
+               }
+           );
        }
-       _animatePostmanEntered = (postman) => {
+
+       _animatePostmanExit = (postman) => {
            fromTo(postman,
                1,
-               { opacity: 1 },
-               { opacity: 0 });
+               { opacity: 1, x: 0 },
+               { opacity: 0, x: 50 });
        }
 
        render () {
            const { avatar, currentUserFirstName, currentUserLastName } = this.props;
            const { posts } = this.state;
+           const isPostmanIn = this.state.isPostmanIn;
 
            const postsJSX = posts.map((post) => {
                return (
@@ -202,11 +217,10 @@ export default class Feed extends Component {
                    </Transition>
                    <Transition
                        appear
-                       in
+                       in = { isPostmanIn }
                        timeout = { 1000 }
-                       onEntering = { this._animatePostmanEntering }
-                       timeout = { 1000 }
-                       onEntered = {this._animatePostmanEntered}>
+                       onEnter = { this._animatePostmanEnter }
+                       onExit = { this._animatePostmanExit }>
                        <Postman />
                    </Transition>
                    {postsJSX}
