@@ -156,19 +156,19 @@ export default class Feed extends Component {
                { opacity: 0, rotationX: 50 },
                { opacity: 1, rotationX: 0 });
        }
-       _animatePostmanEnter = (postman) => {
+       _animatePostmanEntering = (postman) => {
            fromTo(postman,
                1,
                { opacity: 0, x: -50 },
-               { opacity:    1,
-                   x:          0,
-                   onComplete: () => {
-                       fromTo(postman,
-                           1,
-                           { opacity: 1 },
-                           { opacity: 0 });
-                   },
+               { opacity: 1,
+                   x:       0,
                });
+       }
+       _animatePostmanEntered = (postman) => {
+           fromTo(postman,
+               1,
+               { opacity: 1 },
+               { opacity: 0 });
        }
 
        render () {
@@ -204,7 +204,9 @@ export default class Feed extends Component {
                        appear
                        in
                        timeout = { 1000 }
-                       onEnter = { this._animatePostmanEnter }>
+                       onEntering = { this._animatePostmanEntering }
+                       timeout = { 1000 }
+                       onEntered = {this._animatePostmanEntered}>
                        <Postman />
                    </Transition>
                    {postsJSX}
