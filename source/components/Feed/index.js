@@ -15,6 +15,7 @@ import Styles from './styles.m.css';
 import Catcher from '../../components/Catcher';
 import Spinner from '../Spinner';
 import Postman from 'components/Postman';
+import Counter from 'components/Counter';
 import { api, TOKEN, GROUP_ID } from '../../config/api';
 import { socket } from '../socket/init';
 
@@ -231,6 +232,7 @@ export default class Feed extends Component {
                            _createPost = { this._createPost }
                        />
                    </Transition>
+                   <Counter count = { postsJSX.length } />
                    <Transition
                        appear
                        in = { isPostmanIn }
