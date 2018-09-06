@@ -7,10 +7,11 @@ import { withProfile } from '../../components/HOC/withProfile';
 
 // Instruments
 import Styles from './styles.m.css';
-
-class Composer extends Component {
+export class Composer extends Component {
     static propTypes = {
-        _createPost: PropTypes.func.isRequired,
+        _createPost:          PropTypes.func.isRequired,
+        avatar:               PropTypes.string.isRequired,
+        currentUserFirstName: PropTypes.string.isRequired,
     };
 
     state = {
