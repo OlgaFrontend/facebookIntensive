@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import cx from 'classnames';
 import { Transition } from 'react-transition-group';
 import { fromTo } from 'gsap';
+import { Link } from 'react-router-dom';
 
 // Components
 import { Consumer } from '../../components/HOC/withProfile';
@@ -18,6 +19,7 @@ export default class StatusBar extends Component {
     };
 
     componentDidMount () {
+        console.log("COMPONENT DID MOUNT");
         socket.on('connect', () => {
             this.setState({
                 online: true,
@@ -38,10 +40,16 @@ export default class StatusBar extends Component {
     _animateStatusBarEnter = (statusbar) => {
         fromTo(statusbar, 1, { opacity: 0 }, { opacity: 1 });
     }
+    _setLogOut = () => {
+        const { _setLogOut } = this.props;
+
+        _setLogOut();
+
+    }
     render () {
         const { avatar,
             currentUserFirstName,
-            currentUserLastName } = this.props;
+        } = this.props;
         const { online } = this.state;
 
         const statusStyle = cx(Styles.status, {
@@ -52,7 +60,6 @@ export default class StatusBar extends Component {
         const statusMessage = online ? 'Online' : 'Offline';
 
         return (
-
             <Transition
                 appear
                 in
@@ -63,12 +70,12 @@ export default class StatusBar extends Component {
                         <div>{statusMessage}</div>
                         <span />
                     </div>
-                    <button>
+                    <Link onClick = { this._setLogOut } to = '/login'>Log out</Link>
+                    <Link to = '/profile'>
                         <img src = { avatar } />
                         <span>{currentUserFirstName}</span>
-                                &nbsp;
-                        <span>{currentUserLastName}</span>
-                    </button>
+                    </Link>
+                    <Link to = '/feed'>Feed</Link>
                 </section>
             </Transition>
 

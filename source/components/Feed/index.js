@@ -8,7 +8,6 @@ import { fromTo } from 'gsap';
 import Composer from '../Composer';
 import Post from '../Post';
 import { withProfile } from '../../components/HOC/withProfile';
-import StatusBar from '../StatusBar';
 
 // Instruments
 import Styles from './styles.m.css';
@@ -222,7 +221,6 @@ export default class Feed extends Component {
            return (
                <section className = { Styles.feed }>
                    <Spinner isPostsFetching = { isPostsFetching } />
-                   <StatusBar { ...this.props } />
                    <Transition
                        appear
                        in
